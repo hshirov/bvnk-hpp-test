@@ -1,17 +1,23 @@
-import { Column } from '@/components/Column';
+import { Card, CardTitle } from '@/components/base/Card';
+import { Column } from '@/components/base/Column';
 
-interface CardProps {
+interface AcceptQuoteCardProps {
   title: string;
   priceAmount: number;
   currency: string;
   referenceNumber: string;
 }
 
-export const Card = ({ title, priceAmount, currency, referenceNumber }: CardProps) => {
+export const AcceptQuoteCard = ({
+  title,
+  priceAmount,
+  currency,
+  referenceNumber
+}: AcceptQuoteCardProps) => {
   return (
-    <Column className="bg-card-background rounded-card max-w-card-width w-full gap-6 p-6">
+    <Card>
       <Column className="gap-1">
-        <h2 className="text-xl font-medium">{title}</h2>
+        <CardTitle>{title}</CardTitle>
         <div className="font-semibold">
           <span className="mr-1 text-3xl">{priceAmount}</span>{' '}
           <span className="text-xl">{currency}</span>
@@ -22,6 +28,6 @@ export const Card = ({ title, priceAmount, currency, referenceNumber }: CardProp
         <span className="text-text-secondary">For reference number:</span>{' '}
         <span className="font-medium">{referenceNumber}</span>
       </div>
-    </Column>
+    </Card>
   );
 };

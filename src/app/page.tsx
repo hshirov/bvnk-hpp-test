@@ -1,8 +1,8 @@
-import { Card } from '@/components/Card';
+import { AcceptQuoteCard } from '@/components/AcceptQuoteCard';
 
 const Home = () => {
   return (
-    <Card
+    <AcceptQuoteCard
       title="Merchant Display Name"
       priceAmount={200}
       currency="EUR"
