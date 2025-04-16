@@ -15,7 +15,9 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="flex h-screen w-full items-start justify-center pt-36">{children}</div>
+      </body>
     </html>
   );
 };

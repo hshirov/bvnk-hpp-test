@@ -1,12 +1,20 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: #ebedf3;
+  --color-primary: #3f53dd;
+  --color-text-primary: #0a1628;
+  --color-text-secondary: #556877;
+  --color-card-background: #ffffff;
+
+  --radius-card: 10px;
+  --spacing-card-width: 460px;
+
+  /* overriding to be accurate to design */
+  --text-3xl: 32px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text-primary);
 }
