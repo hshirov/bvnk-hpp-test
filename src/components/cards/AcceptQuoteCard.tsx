@@ -40,19 +40,19 @@ export const AcceptQuoteCard = ({
     <Card>
       <Column className="gap-1">
         <CardTitle>{title}</CardTitle>
-        <div className="font-semibold">
+        <div className="font-medium">
           <span className="mr-1 text-3xl">{priceAmount}</span>{' '}
           <span className="text-xl">{currency}</span>
         </div>
       </Column>
 
       <div className="text-sm">
-        <span className="text-text-secondary">For reference number:</span>{' '}
-        <span className="font-medium">{referenceNumber}</span>
+        <span className="text-text-secondary font-light">For reference number:</span>{' '}
+        <span>{referenceNumber}</span>
       </div>
 
       <Column className="w-full items-start gap-1">
-        <p className="text-sm font-medium">Pay with</p>
+        <p className="text-sm">Pay with</p>
         <Select
           options={CURRENCY_OPTIONS}
           selectedValue={selectedCurrency}

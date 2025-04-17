@@ -25,5 +25,5 @@ export const Card = ({ className, children }: CardProps) => {
 };
 
 export const CardTitle = ({ children, className }: CardTitleProps) => (
-  <h2 className={clsx('text-xl font-medium', className)}>{children}</h2>
+  <h2 className={clsx('text-xl', className)}>{children}</h2>
 );
