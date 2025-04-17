@@ -9,4 +9,5 @@ export interface PaymentSummary {
   merchantDisplayName: string;
   displayCurrency: CurrencyData;
   reference: string;
+  status: 'EXPIRED' | 'PENDING';
 }

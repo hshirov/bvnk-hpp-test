@@ -1,4 +1,4 @@
-import { AcceptQuoteCard } from '@/components/AcceptQuoteCard';
+import { AcceptQuoteCard } from '@/components/cards/AcceptQuoteCard';
 
 const Home = () => {
   return (

@@ -1,4 +1,4 @@
-export const SelectArrows = () => (
+export const SelectArrowsIcon = () => (
   <svg
     width="8"
     height="12"
