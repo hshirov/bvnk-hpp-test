@@ -7,12 +7,12 @@ export interface SelectOptions {
 
 interface SelectProps {
   options: SelectOptions[];
-  selectedValue: string;
+  value: string;
   placeholder: string;
   onChange: (selectedValue: string) => void;
 }
 
-export const Select = ({ options, selectedValue, placeholder, onChange }: SelectProps) => {
+export const Select = ({ options, value, placeholder, onChange }: SelectProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     onChange(event.target.value);
 
@@ -20,7 +20,7 @@ export const Select = ({ options, selectedValue, placeholder, onChange }: Select
     <div className="relative w-full">
       <select
         className="border-select-border rounded-select w-full appearance-none border-1 p-4 text-sm"
-        value={selectedValue}
+        value={value}
         onChange={handleChange}
       >
         <option

@@ -5,17 +5,13 @@ import { Card, CardTitle } from '@/components/base/Card';
 import { Column } from '@/components/base/Column';
 import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
+import { CurrencyOption } from '@/interfaces/CurrencyOption';
 
 interface AcceptQuoteCardProps {
   title: string;
   priceAmount: number;
   currency: string;
   referenceNumber: string;
-}
-
-interface CurrencyOption {
-  title: string;
-  value: AcceptedCurrency;
 }
 
 const CURRENCY_OPTIONS: CurrencyOption[] = [
@@ -55,7 +51,7 @@ export const AcceptQuoteCard = ({
         <p className="text-sm">Pay with</p>
         <Select
           options={CURRENCY_OPTIONS}
-          selectedValue={selectedCurrency}
+          value={selectedCurrency}
           placeholder="Select Currency"
           onChange={handleCurrencyChange}
         />
