@@ -5,10 +5,13 @@
   --color-primary: #3f53dd;
   --color-text-primary: #0a1628;
   --color-text-secondary: #556877;
-  --color-card-background: #ffffff;
 
+  --color-card-background: #ffffff;
   --radius-card: 10px;
   --spacing-card-width: 460px;
+
+  --color-select-border: #e3e8ee;
+  --radius-select: 4px;
 
   /* overriding to be accurate to design */
   --text-3xl: 32px;

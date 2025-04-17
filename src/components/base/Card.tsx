@@ -1,5 +1,5 @@
-import { Column } from '@/components/base/Column';
 import clsx from 'clsx';
+import { Column } from '@/components/base/Column';
 
 interface CardProps {
   children: React.ReactNode;
