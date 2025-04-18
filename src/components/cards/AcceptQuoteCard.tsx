@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState, useTransition } from 'react';
 import { Card, CardTitle } from '@/components/base/Card';
 import { Column } from '@/components/base/Column';
 import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
 import { CurrencyOption } from '@/interfaces/CurrencyOption';
 import { updatePayment } from '@/api/payments';
+import { formatTimestamp } from '@/utils/time';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -29,14 +30,48 @@ export const AcceptQuoteCard = ({
   currency,
   referenceNumber
 }: AcceptQuoteCardProps) => {
+  const [isPending, startTransition] = useTransition();
   const [selectedCurrency, setSelectedCurrency] = useState<AcceptedCurrency | ''>('');
+  const [amountDue, setAmountDue] = useState<number | null>(null);
+  const [acceptanceTimeLeft, setAcceptanceTimeLeft] = useState<number | null>(null);
 
-  const handleCurrencyChange = async (selectedValue: string) => {
+  const canShowPaymentDetails =
+    (amountDue !== null && acceptanceTimeLeft !== null && acceptanceTimeLeft > 0) || isPending;
+
+  const refreshQuote = useCallback(
+    (currency: AcceptedCurrency) => {
+      startTransition(async () => {
+        const updatedData = await updatePayment(uuid, currency);
+        const timeLeft = Math.max(updatedData.acceptanceExpiryDate - Date.now(), 0);
+        startTransition(() => {
+          setAcceptanceTimeLeft(timeLeft);
+          setAmountDue(updatedData.paidCurrency.amount);
+        });
+      });
+    },
+    [uuid]
+  );
+
+  const handleCurrencyChange = (selectedValue: string) => {
     setSelectedCurrency(selectedValue as AcceptedCurrency);
-    const updatedData = await updatePayment(uuid, selectedValue as AcceptedCurrency);
-
-    console.log(updatedData);
+    refreshQuote(selectedValue as AcceptedCurrency);
   };
+
+  useEffect(() => {
+    if (acceptanceTimeLeft === null || selectedCurrency === '') {
+      return;
+    }
+    if (acceptanceTimeLeft <= 0) {
+      refreshQuote(selectedCurrency);
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      setAcceptanceTimeLeft(Math.max(acceptanceTimeLeft - 1000, 0));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [acceptanceTimeLeft, selectedCurrency, refreshQuote]);
 
   return (
     <Card>
@@ -56,12 +91,36 @@ export const AcceptQuoteCard = ({
       <Column className="w-full items-start gap-1">
         <p className="text-sm">Pay with</p>
         <Select
+          placeholder="Select Currency"
           options={CURRENCY_OPTIONS}
           value={selectedCurrency}
-          placeholder="Select Currency"
           onChange={handleCurrencyChange}
         />
       </Column>
+
+      {canShowPaymentDetails && (
+        <Column className="w-full text-sm">
+          <div className="border-select-border flex w-full justify-between border-t py-3">
+            <span className="text-text-secondary font-light">Amount due</span>
+            {isPending ? (
+              <div>Loading...</div>
+            ) : (
+              <span>
+                {amountDue} {selectedCurrency}
+              </span>
+            )}
+          </div>
+
+          <div className="border-select-border flex w-full justify-between border-t border-b py-3">
+            <span className="text-text-secondary font-light">Quoted price expires in</span>
+            {isPending ? (
+              <div>Loading...</div>
+            ) : (
+              <span>{formatTimestamp(acceptanceTimeLeft!)}</span>
+            )}
+          </div>
+        </Column>
+      )}
     </Card>
   );
 };

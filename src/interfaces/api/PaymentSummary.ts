@@ -8,8 +8,10 @@ interface CurrencyData {
 
 export interface PaymentSummary {
   expiryDate: number;
+  acceptanceExpiryDate: number;
   merchantDisplayName: string;
   displayCurrency: CurrencyData;
+  paidCurrency: CurrencyData;
   reference: string;
   status: 'EXPIRED' | 'PENDING';
 }
