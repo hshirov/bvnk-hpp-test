@@ -8,6 +8,8 @@ import { AcceptedCurrency } from '@/types/AcceptedCurrency';
 import { CurrencyOption } from '@/interfaces/CurrencyOption';
 import { updatePayment } from '@/api/payments';
 import { formatTimestamp } from '@/utils/time';
+import { Spinner } from '../base/Spinner';
+import { DividedColumn } from '../base/DividedColumn';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -99,11 +101,11 @@ export const AcceptQuoteCard = ({
       </Column>
 
       {canShowPaymentDetails && (
-        <Column className="w-full text-sm">
-          <div className="border-select-border flex w-full justify-between border-t py-3">
+        <DividedColumn className="text-sm">
+          <div className="flex w-full justify-between py-3">
             <span className="text-text-secondary font-light">Amount due</span>
             {isPending ? (
-              <div>Loading...</div>
+              <Spinner />
             ) : (
               <span>
                 {amountDue} {selectedCurrency}
@@ -111,15 +113,11 @@ export const AcceptQuoteCard = ({
             )}
           </div>
 
-          <div className="border-select-border flex w-full justify-between border-t border-b py-3">
+          <div className="flex w-full justify-between py-3">
             <span className="text-text-secondary font-light">Quoted price expires in</span>
-            {isPending ? (
-              <div>Loading...</div>
-            ) : (
-              <span>{formatTimestamp(acceptanceTimeLeft!)}</span>
-            )}
+            {isPending ? <Spinner /> : <span>{formatTimestamp(acceptanceTimeLeft!)}</span>}
           </div>
-        </Column>
+        </DividedColumn>
       )}
     </Card>
   );

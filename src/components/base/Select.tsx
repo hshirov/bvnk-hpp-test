@@ -19,7 +19,7 @@ export const Select = ({ options, value, placeholder, onChange }: SelectProps) =
   return (
     <div className="relative w-full">
       <select
-        className="border-select-border rounded-select w-full appearance-none border-1 p-4 text-sm"
+        className="border-light-border rounded-select w-full appearance-none border-1 p-4 text-sm"
         value={value}
         onChange={handleChange}
       >
