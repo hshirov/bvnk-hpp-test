@@ -5,9 +5,9 @@ import { Card, CardTitle } from '@/components/base/Card';
 import { Column } from '@/components/base/Column';
 import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
-import { CurrencyOption } from '@/interfaces/CurrencyOption';
 import { updatePayment } from '@/api/payments';
 import { formatTimestamp } from '@/utils/time';
+import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
 import { Button } from '../base/Button';
@@ -20,12 +20,6 @@ interface AcceptQuoteCardProps {
   currency: string;
   referenceNumber: string;
 }
-
-const CURRENCY_OPTIONS: CurrencyOption[] = [
-  { title: 'Bitcoin', value: 'BTC' },
-  { title: 'Ethereum', value: 'ETH' },
-  { title: 'Litecoin', value: 'LTC' }
-];
 
 export const AcceptQuoteCard = ({
   uuid,
