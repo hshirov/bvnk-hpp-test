@@ -19,14 +19,13 @@ export const Select = ({ options, value, placeholder, onChange }: SelectProps) =
   return (
     <div className="relative w-full">
       <select
-        className="border-light-border rounded-select w-full appearance-none border-1 p-4 text-sm"
+        className="border-light-border rounded-select focus:ring-primary focus:border-primary w-full appearance-none border-1 p-4 text-sm focus:ring-1 focus:outline-none"
         value={value}
         onChange={handleChange}
       >
         <option
           value=""
           disabled
-          hidden
         >
           {placeholder}
         </option>
