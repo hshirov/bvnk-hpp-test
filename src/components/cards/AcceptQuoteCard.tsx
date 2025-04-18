@@ -11,6 +11,7 @@ import { formatTimestamp } from '@/utils/time';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
 import { Button } from '../base/Button';
+import { PaymentExpiredCard } from './PaymentExpiredCard';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -37,13 +38,21 @@ export const AcceptQuoteCard = ({
   const [selectedCurrency, setSelectedCurrency] = useState<AcceptedCurrency | ''>('');
   const [amountDue, setAmountDue] = useState<number | null>(null);
   const [acceptanceTimeLeft, setAcceptanceTimeLeft] = useState<number | null>(null);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const canShowPaymentDetails = (amountDue !== null && acceptanceTimeLeft !== null) || isPending;
 
   const refreshQuote = useCallback(
     (currency: AcceptedCurrency) => {
       startTransition(async () => {
-        const updatedData = await updatePayment(uuid, currency);
+        let updatedData;
+        try {
+          updatedData = await updatePayment(uuid, currency);
+        } catch {
+          // TODO: Improve error handling, narrow down expired error
+          return setIsExpired(true);
+        }
+
         const timeLeft = Math.max(updatedData.acceptanceExpiryDate - Date.now(), 0);
         startTransition(() => {
           setAcceptanceTimeLeft(timeLeft);
@@ -74,6 +83,10 @@ export const AcceptQuoteCard = ({
 
     return () => clearInterval(intervalId);
   }, [acceptanceTimeLeft, selectedCurrency, refreshQuote]);
+
+  if (isExpired) {
+    return <PaymentExpiredCard />;
+  }
 
   return (
     <Card>
