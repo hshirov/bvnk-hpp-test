@@ -1,3 +1,5 @@
+import { AcceptedCurrency } from '@/types/AcceptedCurrency';
+
 interface CurrencyData {
   amount: number;
   actual: number;
@@ -10,4 +12,9 @@ export interface PaymentSummary {
   displayCurrency: CurrencyData;
   reference: string;
   status: 'EXPIRED' | 'PENDING';
+}
+
+export interface UpdatePayment {
+  currency: AcceptedCurrency;
+  payInMethod: string;
 }

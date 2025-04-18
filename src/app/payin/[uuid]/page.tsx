@@ -18,6 +18,7 @@ const AcceptQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }
 
   return (
     <AcceptQuoteCard
+      uuid={uuid}
       title={payment.merchantDisplayName}
       priceAmount={payment.displayCurrency.amount}
       currency={payment.displayCurrency.currency}

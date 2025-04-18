@@ -6,8 +6,10 @@ import { Column } from '@/components/base/Column';
 import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
 import { CurrencyOption } from '@/interfaces/CurrencyOption';
+import { updatePayment } from '@/api/payments';
 
 interface AcceptQuoteCardProps {
+  uuid: string;
   title: string;
   priceAmount: number;
   currency: string;
@@ -21,6 +23,7 @@ const CURRENCY_OPTIONS: CurrencyOption[] = [
 ];
 
 export const AcceptQuoteCard = ({
+  uuid,
   title,
   priceAmount,
   currency,
@@ -28,8 +31,11 @@ export const AcceptQuoteCard = ({
 }: AcceptQuoteCardProps) => {
   const [selectedCurrency, setSelectedCurrency] = useState<AcceptedCurrency | ''>('');
 
-  const handleCurrencyChange = (selectedValue: string) => {
+  const handleCurrencyChange = async (selectedValue: string) => {
     setSelectedCurrency(selectedValue as AcceptedCurrency);
+    const updatedData = await updatePayment(uuid, selectedValue as AcceptedCurrency);
+
+    console.log(updatedData);
   };
 
   return (
