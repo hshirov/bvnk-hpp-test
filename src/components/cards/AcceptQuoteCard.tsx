@@ -37,8 +37,7 @@ export const AcceptQuoteCard = ({
   const [amountDue, setAmountDue] = useState<number | null>(null);
   const [acceptanceTimeLeft, setAcceptanceTimeLeft] = useState<number | null>(null);
 
-  const canShowPaymentDetails =
-    (amountDue !== null && acceptanceTimeLeft !== null && acceptanceTimeLeft > 0) || isPending;
+  const canShowPaymentDetails = (amountDue !== null && acceptanceTimeLeft !== null) || isPending;
 
   const refreshQuote = useCallback(
     (currency: AcceptedCurrency) => {
