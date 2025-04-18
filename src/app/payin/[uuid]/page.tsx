@@ -2,13 +2,12 @@ import { getPaymentSummary } from '@/api/payments';
 import { AcceptQuoteCard } from '@/components/cards/AcceptQuoteCard';
 import { PaymentExpiredCard } from '@/components/cards/PaymentExpiredCard';
 import { isValidUUID } from '@/utils/validation';
-import { notFound } from 'next/navigation';
 
 const AcceptQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }) => {
   const { uuid } = await params;
 
   if (!isValidUUID(uuid)) {
-    notFound(); // TODO: Add 404 page
+    throw new Error('Invalid UUID');
   }
 
   const payment = await getPaymentSummary(uuid);
