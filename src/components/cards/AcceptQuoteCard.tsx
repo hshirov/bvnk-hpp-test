@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardTitle } from '@/components/base/Card';
 import { Column } from '@/components/base/Column';
 import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
-import { updatePayment } from '@/api/payments';
+import { acceptPayment, updatePayment } from '@/api/payments';
 import { formatTimestamp } from '@/utils/time';
 import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Spinner } from '../base/Spinner';
@@ -28,11 +29,13 @@ export const AcceptQuoteCard = ({
   currency,
   referenceNumber
 }: AcceptQuoteCardProps) => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedCurrency, setSelectedCurrency] = useState<AcceptedCurrency | ''>('');
   const [amountDue, setAmountDue] = useState<number | null>(null);
   const [acceptanceTimeLeft, setAcceptanceTimeLeft] = useState<number | null>(null);
   const [isExpired, setIsExpired] = useState<boolean>(false);
+  const [isConfirmPending, setIsConfirmPending] = useState<boolean>(false);
 
   const canShowPaymentDetails = (amountDue !== null && acceptanceTimeLeft !== null) || isPending;
 
@@ -62,13 +65,18 @@ export const AcceptQuoteCard = ({
     refreshQuote(selectedValue as AcceptedCurrency);
   };
 
+  const handleSubmit = async () => {
+    setIsConfirmPending(true);
+    await acceptPayment(uuid);
+    router.replace(`/payin/${uuid}/pay`);
+  };
+
   useEffect(() => {
-    if (acceptanceTimeLeft === null || selectedCurrency === '') {
+    if (acceptanceTimeLeft === null || selectedCurrency === '' || isConfirmPending) {
       return;
     }
     if (acceptanceTimeLeft <= 0) {
-      refreshQuote(selectedCurrency);
-      return;
+      return refreshQuote(selectedCurrency);
     }
 
     const intervalId = setInterval(() => {
@@ -76,7 +84,7 @@ export const AcceptQuoteCard = ({
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [acceptanceTimeLeft, selectedCurrency, refreshQuote]);
+  }, [acceptanceTimeLeft, selectedCurrency, refreshQuote, isConfirmPending]);
 
   if (isExpired) {
     return <PaymentExpiredCard />;
@@ -127,7 +135,14 @@ export const AcceptQuoteCard = ({
         </DividedColumn>
       )}
 
-      {canShowPaymentDetails && !isPending && <Button>Confirm</Button>}
+      {canShowPaymentDetails && !isPending && (
+        <Button
+          isLoading={isConfirmPending}
+          onClick={handleSubmit}
+        >
+          Confirm
+        </Button>
+      )}
     </Card>
   );
 };
