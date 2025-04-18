@@ -10,6 +10,7 @@ import { updatePayment } from '@/api/payments';
 import { formatTimestamp } from '@/utils/time';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
+import { Button } from '../base/Button';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -118,6 +119,8 @@ export const AcceptQuoteCard = ({
           </div>
         </DividedColumn>
       )}
+
+      {canShowPaymentDetails && !isPending && <Button>Confirm</Button>}
     </Card>
   );
 };

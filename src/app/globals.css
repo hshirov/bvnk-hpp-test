@@ -6,12 +6,12 @@
   --color-text-primary: #0a1628;
   --color-text-secondary: #556877;
   --color-light-border: #e3e8ee;
+  --color-primary-hover: #3243b6;
+  --color-primary-active: #28379a;
 
   --color-card-background: #ffffff;
   --radius-card: 10px;
   --spacing-card-width: 460px;
-
-  --radius-select: 4px;
 
   /* overriding to be accurate to design */
   --text-3xl: 32px;

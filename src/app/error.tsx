@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/base/Button';
 import { Card, CardTitle } from '@/components/base/Card';
 import { CircleAlertIcon } from '@/components/icons/CircleAlertIcon';
 import { useEffect } from 'react';
@@ -20,7 +21,7 @@ export default function Error({
     <Card className="gap-5 p-15">
       <CircleAlertIcon />
       <CardTitle className="font-medium">Something went wrong</CardTitle>
-      <button onClick={reset}>Try again</button>
+      <Button onClick={reset}>Try again</Button>
     </Card>
   );
 }
