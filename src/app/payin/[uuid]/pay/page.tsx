@@ -16,14 +16,18 @@ const PayQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }) =
     redirect(`/payin/${uuid}/expired`);
   }
   if (payment.quoteStatus !== 'ACCEPTED') {
-    throw Error('Quote not accepted');
+    redirect(`/payin/${uuid}`);
   }
+
+  const timeLeftToPay = Math.max(payment.expiryDate - Date.now(), 0);
 
   return (
     <PayQuoteCard
+      uuid={uuid}
       currency={payment.paidCurrency.currency}
       amount={payment.paidCurrency.amount}
       address={payment.address.address}
+      timeLeft={timeLeftToPay}
     />
   );
 };

@@ -1,17 +1,37 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ellipsifyMiddle } from '@/utils/text';
+import { formatTimestamp } from '@/utils/time';
 import { Card, CardTitle } from '../base/Card';
 import { DividedColumn } from '../base/DividedColumn';
 import { CopyToClipboard } from '../base/CopyToClipboard';
 
 interface PayQuoteCardProps {
+  uuid: string;
   currency: string;
   amount: number;
   address: string;
+  timeLeft: number;
 }
 
-export const PayQuoteCard = ({ currency, amount, address }: PayQuoteCardProps) => {
+export const PayQuoteCard = ({ uuid, currency, amount, address, timeLeft }: PayQuoteCardProps) => {
+  const router = useRouter();
+  const [timeLeftCountdown, setTimeLeftCountdown] = useState<number>(timeLeft);
+
+  useEffect(() => {
+    if (timeLeftCountdown <= 0) {
+      return router.replace(`/payin/${uuid}/expired`);
+    }
+
+    const intervalId = setInterval(() => {
+      setTimeLeftCountdown(Math.max(timeLeftCountdown - 1000, 0));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timeLeftCountdown, uuid, router]);
+
   return (
     <Card>
       <CardTitle>Pay with {currency}</CardTitle>
@@ -35,7 +55,7 @@ export const PayQuoteCard = ({ currency, amount, address }: PayQuoteCardProps) =
 
         <div className="flex w-full justify-between py-3">
           <span className="text-text-secondary font-light">Time left to pay</span>
-          <span>12:12:00</span>
+          <span>{formatTimestamp(timeLeftCountdown)}</span>
         </div>
       </DividedColumn>
     </Card>
