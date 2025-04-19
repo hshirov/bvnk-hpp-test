@@ -10,6 +10,7 @@ import { Card, CardTitle } from '../base/Card';
 import { DividedColumn } from '../base/DividedColumn';
 import { CopyToClipboard } from '../base/CopyToClipboard';
 import { Column } from '../base/Column';
+import { TextSecondary } from '../typography/TextSecondary';
 
 interface PayQuoteCardProps {
   uuid: string;
@@ -49,13 +50,13 @@ export const PayQuoteCard = ({
     <Card>
       <CardTitle>Pay with {currencyName || currency}</CardTitle>
 
-      <p className="text-text-secondary max-w-72 text-center text-sm font-light">
+      <TextSecondary className="max-w-72 text-center text-sm">
         To complete this payment send the amount due to the {currency} address provided below.
-      </p>
+      </TextSecondary>
 
       <DividedColumn className="text-sm">
         <div className="flex w-full justify-between py-3">
-          <span className="text-text-secondary font-light">Amount due</span>
+          <TextSecondary>Amount due</TextSecondary>
           <CopyToClipboard textToCopy={amount}>
             {amount} {currency}
           </CopyToClipboard>
@@ -63,7 +64,7 @@ export const PayQuoteCard = ({
 
         <div className="flex w-full flex-col items-center gap-6 py-3">
           <div className="flex w-full justify-between">
-            <span className="text-text-secondary font-light">{currency} address</span>
+            <TextSecondary>{currency} address</TextSecondary>
             <CopyToClipboard textToCopy={address}>{ellipsifyMiddle(address)}</CopyToClipboard>
           </div>
 
@@ -72,12 +73,12 @@ export const PayQuoteCard = ({
               value={addressUri}
               size={140}
             />
-            <span className="text-text-secondary text-xs font-light">{address}</span>
+            <TextSecondary className="text-xs">{address}</TextSecondary>
           </Column>
         </div>
 
         <div className="flex w-full justify-between py-3">
-          <span className="text-text-secondary font-light">Time left to pay</span>
+          <TextSecondary>Time left to pay</TextSecondary>
           <span>{formatTimestamp(timeLeftCountdown)}</span>
         </div>
       </DividedColumn>

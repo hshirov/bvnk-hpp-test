@@ -12,6 +12,7 @@ import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
 import { Button } from '../base/Button';
+import { TextSecondary } from '../typography/TextSecondary';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -95,8 +96,7 @@ export const AcceptQuoteCard = ({
       </Column>
 
       <div className="text-sm">
-        <span className="text-text-secondary font-light">For reference number:</span>{' '}
-        <span>{referenceNumber}</span>
+        <TextSecondary>For reference number:</TextSecondary> <span>{referenceNumber}</span>
       </div>
 
       <Column className="w-full items-start gap-1">
@@ -112,7 +112,7 @@ export const AcceptQuoteCard = ({
       {canShowPaymentDetails && (
         <DividedColumn className="text-sm">
           <div className="flex w-full justify-between py-3">
-            <span className="text-text-secondary font-light">Amount due</span>
+            <TextSecondary>Amount due</TextSecondary>
             {isPending ? (
               <Spinner />
             ) : (
@@ -123,7 +123,7 @@ export const AcceptQuoteCard = ({
           </div>
 
           <div className="flex w-full justify-between py-3">
-            <span className="text-text-secondary font-light">Quoted price expires in</span>
+            <TextSecondary>Quoted price expires in</TextSecondary>
             {isPending ? <Spinner /> : <span>{formatTimestamp(acceptanceTimeLeft!)}</span>}
           </div>
         </DividedColumn>
