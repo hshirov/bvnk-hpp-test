@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { QRCodeSVG } from 'qrcode.react';
 import { ellipsifyMiddle } from '@/utils/text';
 import { formatTimestamp } from '@/utils/time';
+import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Card, CardTitle } from '../base/Card';
 import { DividedColumn } from '../base/DividedColumn';
 import { CopyToClipboard } from '../base/CopyToClipboard';
@@ -30,6 +31,8 @@ export const PayQuoteCard = ({
   const router = useRouter();
   const [timeLeftCountdown, setTimeLeftCountdown] = useState<number>(timeLeft);
 
+  const currencyName = CURRENCY_OPTIONS.find((item) => item.value === currency)?.title;
+
   useEffect(() => {
     if (timeLeftCountdown <= 0) {
       return router.replace(`/payin/${uuid}/expired`);
@@ -44,7 +47,7 @@ export const PayQuoteCard = ({
 
   return (
     <Card>
-      <CardTitle>Pay with {currency}</CardTitle>
+      <CardTitle>Pay with {currencyName || currency}</CardTitle>
 
       <p className="text-text-secondary max-w-72 text-center text-sm font-light">
         To complete this payment send the amount due to the {currency} address provided below.
