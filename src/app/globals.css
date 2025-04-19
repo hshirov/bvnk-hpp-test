@@ -13,6 +13,18 @@
   --radius-card: 10px;
   --spacing-card-width: 460px;
 
+  @keyframes strobe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  --animate-strobe: strobe 2s infinite;
+
   /* overriding to be accurate to design */
   --text-3xl: 32px;
 }

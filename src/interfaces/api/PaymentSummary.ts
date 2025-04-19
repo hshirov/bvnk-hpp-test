@@ -6,6 +6,10 @@ interface CurrencyData {
   currency: string;
 }
 
+interface AddressData {
+  address: string;
+}
+
 export interface PaymentSummary {
   expiryDate: number;
   acceptanceExpiryDate: number;
@@ -15,6 +19,7 @@ export interface PaymentSummary {
   reference: string;
   status: 'EXPIRED' | 'PENDING';
   quoteStatus: 'TEMPLATE' | 'ACCEPTED';
+  address: AddressData;
 }
 
 export interface UpdatePayment {

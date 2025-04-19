@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getPaymentSummary } from '@/api/payments';
 import { isValidUUID } from '@/utils/validation';
+import { PayQuoteCard } from '@/components/cards/PayQuoteCard';
 
 const PayQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }) => {
   const { uuid } = await params;
@@ -18,7 +19,13 @@ const PayQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }) =
     throw Error('Quote not accepted');
   }
 
-  return <div></div>;
+  return (
+    <PayQuoteCard
+      currency={payment.paidCurrency.currency}
+      amount={payment.paidCurrency.amount}
+      address={payment.address.address}
+    />
+  );
 };
 
 export default PayQuotePage;
