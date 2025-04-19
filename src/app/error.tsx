@@ -1,17 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Button } from '@/components/base/Button';
 import { Card, CardTitle } from '@/components/base/Card';
 import { CircleAlertIcon } from '@/components/icons/CircleAlertIcon';
-import { useEffect } from 'react';
 
-export default function Error({
-  error,
-  reset
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+const Error = ({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) => {
   useEffect(() => {
     // TODO: Log the error to an error reporting service
     console.error(error);
@@ -24,4 +18,6 @@ export default function Error({
       <Button onClick={reset}>Try again</Button>
     </Card>
   );
-}
+};
+
+export default Error;
