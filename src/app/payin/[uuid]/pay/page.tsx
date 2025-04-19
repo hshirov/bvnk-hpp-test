@@ -27,6 +27,7 @@ const PayQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }) =
       currency={payment.paidCurrency.currency}
       amount={payment.paidCurrency.amount}
       address={payment.address.address}
+      addressUri={payment.address.uri}
       timeLeft={timeLeftToPay}
     />
   );

@@ -8,6 +8,7 @@ interface CurrencyData {
 
 interface AddressData {
   address: string;
+  uri: string;
 }
 
 export interface PaymentSummary {
