@@ -12,7 +12,6 @@ import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
 import { Button } from '../base/Button';
-import { PaymentExpiredCard } from './PaymentExpiredCard';
 
 interface AcceptQuoteCardProps {
   uuid: string;
@@ -34,7 +33,6 @@ export const AcceptQuoteCard = ({
   const [selectedCurrency, setSelectedCurrency] = useState<AcceptedCurrency | ''>('');
   const [amountDue, setAmountDue] = useState<number | null>(null);
   const [acceptanceTimeLeft, setAcceptanceTimeLeft] = useState<number | null>(null);
-  const [isExpired, setIsExpired] = useState<boolean>(false);
   const [isConfirmPending, setIsConfirmPending] = useState<boolean>(false);
 
   const canShowPaymentDetails = (amountDue !== null && acceptanceTimeLeft !== null) || isPending;
@@ -47,7 +45,7 @@ export const AcceptQuoteCard = ({
           updatedData = await updatePayment(uuid, currency);
         } catch {
           // TODO: Improve error handling, narrow down expired error
-          return setIsExpired(true);
+          return router.replace(`/payin/${uuid}/expired`);
         }
 
         const timeLeft = Math.max(updatedData.acceptanceExpiryDate - Date.now(), 0);
@@ -57,7 +55,7 @@ export const AcceptQuoteCard = ({
         });
       });
     },
-    [uuid]
+    [uuid, router]
   );
 
   const handleCurrencyChange = (selectedValue: string) => {
@@ -85,10 +83,6 @@ export const AcceptQuoteCard = ({
 
     return () => clearInterval(intervalId);
   }, [acceptanceTimeLeft, selectedCurrency, refreshQuote, isConfirmPending]);
-
-  if (isExpired) {
-    return <PaymentExpiredCard />;
-  }
 
   return (
     <Card>
