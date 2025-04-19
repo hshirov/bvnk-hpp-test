@@ -14,6 +14,7 @@ export interface PaymentSummary {
   paidCurrency: CurrencyData;
   reference: string;
   status: 'EXPIRED' | 'PENDING';
+  quoteStatus: 'TEMPLATE' | 'ACCEPTED';
 }
 
 export interface UpdatePayment {

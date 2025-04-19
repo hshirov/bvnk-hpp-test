@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { getPaymentSummary } from '@/api/payments';
 import { AcceptQuoteCard } from '@/components/cards/AcceptQuoteCard';
 import { PaymentExpiredCard } from '@/components/cards/PaymentExpiredCard';
@@ -12,6 +13,9 @@ const AcceptQuotePage = async ({ params }: { params: Promise<{ uuid: string }> }
 
   const payment = await getPaymentSummary(uuid);
 
+  if (payment.quoteStatus === 'ACCEPTED') {
+    redirect(`/payin/${uuid}/pay`);
+  }
   if (payment.status === 'EXPIRED') {
     return <PaymentExpiredCard />;
   }
