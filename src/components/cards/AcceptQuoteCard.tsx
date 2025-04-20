@@ -8,6 +8,7 @@ import { Select } from '@/components/base/Select';
 import { AcceptedCurrency } from '@/types/AcceptedCurrency';
 import { acceptPayment, updatePayment } from '@/api/payments';
 import { formatTimestamp } from '@/utils/time';
+import { isExpiredError } from '@/utils/errors';
 import { CURRENCY_OPTIONS } from '@/constants/currencies';
 import { Spinner } from '../base/Spinner';
 import { DividedColumn } from '../base/DividedColumn';
@@ -44,9 +45,12 @@ export const AcceptQuoteCard = ({
         let updatedData;
         try {
           updatedData = await updatePayment(uuid, currency);
-        } catch {
-          // TODO: Improve error handling, narrow down expired error
-          return router.replace(`/payin/${uuid}/expired`);
+        } catch (error) {
+          if (isExpiredError(error)) {
+            return router.replace(`/payin/${uuid}/expired`);
+          } else {
+            throw error;
+          }
         }
 
         const timeLeft = Math.max(updatedData.acceptanceExpiryDate - Date.now(), 0);
@@ -66,8 +70,16 @@ export const AcceptQuoteCard = ({
 
   const handleSubmit = async () => {
     setIsConfirmPending(true);
-    await acceptPayment(uuid);
-    router.replace(`/payin/${uuid}/pay`);
+    try {
+      await acceptPayment(uuid);
+      router.replace(`/payin/${uuid}/pay`);
+    } catch (error) {
+      if (isExpiredError(error)) {
+        router.replace(`/payin/${uuid}/expired`);
+      } else {
+        throw error;
+      }
+    }
   };
 
   useEffect(() => {
